@@ -5,12 +5,38 @@ import banks  from '../../img/bank.jpg'
 import {useStateValue} from '../../Context/StateProvider'
 import {MdShoppingBasket}from 'react-icons/md'
 import{motion} from 'framer-motion'
+import axiosinstance from '../../Axios/Axios'
 function Home() {
-  const [{product,catagories}]=useStateValue()
+  const [{product,catagories},dispatch]=useStateValue()
    
     product && product.sort(()=> 0.5 - Math.random()) 
     product && console.log(product.length)
     product && product.splice(0,product.length-8)
+    const searchByCatagory=(catagory)=>{
+      axiosinstance.get('/search/products',
+     
+      {
+         params: {
+          catagory: catagory
+         }
+       } 
+      
+      
+     )
+     .then((res)=>{
+       if(res.status == '200')
+       {
+          dispatch({
+           type:'getProduct',
+           product:res.data.message
+          })
+       }
+     })
+     .catch((err)=>{
+       console.log(err)
+     })
+
+    }
    
 
   return (
@@ -66,7 +92,7 @@ function Home() {
          <h1 className='text-serif font-bold text-2xl'>Categories</h1>
          <div className=' flex flex-wrap gap-1 justify-evenly'>
             {catagories && catagories.map((cat)=>(
-              <motion.div whileHover={{scale:1.11}}  key={cat._id} className='bg-white border-2 border-gray-400 w-[45%] md:w-[300px]  flex flex-col items-center justify-between'>
+              <motion.div onClick={()=>{searchByCatagory(cat._id)}} whileHover={{scale:1.11}}  key={cat._id} className='bg-white border-2 border-gray-400 w-[45%] md:w-[300px]  flex flex-col items-center justify-between'>
               <div className='text-serif text-medium text-xl border-1 border-gray-400 r bg-orange-400 w-full flex justify-center hover:bg-orange-600 cursor-pointer'>
               <p className='py-2'>{cat.name}</p>
 
