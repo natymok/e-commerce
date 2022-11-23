@@ -1,0 +1,13 @@
+const express=require('express')
+const {getCatagory}=require('../controller/admin/addCatagory')
+const {searchProduct} =require('../controller/Search')
+const {isValidatedRequest,validateRequest, validatesigninRequest ,required,isAdmin}=require('../controller/vlaidate')
+const router=express.Router()
+const {addtoCart}=require('../controller/cart')
+const { signup ,signin, profile} = require('../controller/user')
+router.post('/signin',validatesigninRequest,isValidatedRequest, signin)
+router.post('/signup',validateRequest,isValidatedRequest,signup)
+router.get('/getCatagories', getCatagory)
+router.get('/search/products', searchProduct)
+router.post('/addTocart',required,addtoCart)
+module.exports=router
