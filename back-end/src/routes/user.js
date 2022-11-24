@@ -1,6 +1,7 @@
 const express=require('express')
 const {getCatagory}=require('../controller/admin/addCatagory')
 const {searchProduct} =require('../controller/Search')
+const {getCart}=require('../controller/cart')
 const {isValidatedRequest,validateRequest, validatesigninRequest ,required,isAdmin}=require('../controller/vlaidate')
 const router=express.Router()
 const {addtoCart}=require('../controller/cart')
@@ -10,4 +11,5 @@ router.post('/signup',validateRequest,isValidatedRequest,signup)
 router.get('/getCatagories', getCatagory)
 router.get('/search/products', searchProduct)
 router.post('/addTocart',required,addtoCart)
+router.get('/getcart',required,getCart)
 module.exports=router

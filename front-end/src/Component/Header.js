@@ -3,12 +3,12 @@ import { useState } from "react";
 import {Link} from 'react-router-dom'
 import axiosinstance from '../Axios/Axios';
 import{motion} from 'framer-motion'
-import {MdSearch,MdMenu}from 'react-icons/md'
+import {MdMenu}from 'react-icons/md'
 import {useStateValue}from  '../Context/StateProvider'
 import logo from '../img/cheff.png'
+import Cart from './CartModal/Cart';
 function Header() {
-    const [{token,catagories,products},dispatch]=useStateValue()
-    const [navbar, setNavbar] = useState(false);
+    const [{token,catagories,products,cart},dispatch]=useStateValue()
     const [product, setProduct] = useState('');
     let selectedCatagory='' 
     const setcat=async (e)=>{
@@ -136,6 +136,8 @@ function Header() {
                 <Link className='text-[1rem]' to='/signup'>Register</Link>
                 {!token && (<Link className='text-[1rem]' to='/signin'>Signin</Link>)}
                  {token && (<button onClick={signOut}>signOut</button>)}
+                 {token && (<Cart></Cart>)}
+                 
             </ul>
          </div>
 

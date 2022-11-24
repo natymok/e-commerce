@@ -13,7 +13,7 @@ const [errors,setErrors]=useState('')
 const [message,setMessage]=useState('')
 const form={email:email,password:password}
 const signin=()=>{
-  axiosinstance.post('signin',{...form})
+  axiosinstance.post('/signin',{...form})
   .then((res)=>{
     if(res){
       localStorage.setItem('user',res.data.Accesstoken)

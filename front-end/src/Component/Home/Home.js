@@ -6,12 +6,32 @@ import {useStateValue} from '../../Context/StateProvider'
 import {MdShoppingBasket}from 'react-icons/md'
 import{motion} from 'framer-motion'
 import axiosinstance from '../../Axios/Axios'
+import { useHistory } from 'react-router-dom'
 function Home() {
-  const [{product,catagories},dispatch]=useStateValue()
+  const history=useHistory()
+  const [{token,product,catagories,cart},dispatch]=useStateValue()
    
     product && product.sort(()=> 0.5 - Math.random()) 
     product && console.log(product.length)
     product && product.splice(0,product.length-8)
+    const addcart=(_product,quantity,price,productPicture)=>{
+      let cartItem={product:_product,quantity:quantity,price:price,productPicture:productPicture}
+      if(!token)
+      {
+        history.push('/signin')
+      }
+      else{
+      axiosinstance.post('/addTocart',{cartItem:cartItem})
+      .then((res)=>{
+        console.log('cart',res)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      }
+
+
+    }
     const searchByCatagory=(catagory)=>{
       axiosinstance.get('/search/products',
      
@@ -33,7 +53,7 @@ function Home() {
        }
      })
      .catch((err)=>{
-       console.log(err)
+       console.log('something went wrong')
      })
 
     }
@@ -67,7 +87,7 @@ function Home() {
                       <option>5</option>
                     </select>
                    </div>
-                    <div className='border-1 border-gray-300 bg-orange-400 hover:bg-orange-600 text-white font-serif flex p-1 w-full md:w-[50%] md:p-3'>
+                    <div className='border-1 border-gray-300 bg-orange-400 hover:bg-orange-600 text-white font-serif flex p-1 w-full md:w-[50%] md:p-3 cursor-pointer' onClick={()=>{addcart(item._id,item.quantity,item.price,item.productPicture[0].img)}}>
                       <MdShoppingBasket></MdShoppingBasket>
                       <p>Add to Cart</p>
                     </div>

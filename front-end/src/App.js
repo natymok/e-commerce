@@ -7,8 +7,10 @@ import Home from './Component/Home/Home';
 import { useEffect } from 'react';
 import { useStateValue } from './Context/StateProvider';
 import axiosinstance from './Axios/Axios';
+import { useState } from 'react';
 function App() {
-  const [{token,product,catagories},dispatch]=useStateValue()
+  const [{token,cart,product,catagories},dispatch]=useStateValue()
+
   useEffect(()=>{
     axiosinstance.get('/getProduct')
     .then((res)=>{
@@ -18,6 +20,8 @@ function App() {
           type:'getProduct',
           product:res.data.message
          })
+         console.log(res)
+    
       }
     })
     .catch((err)=>{
@@ -32,6 +36,16 @@ function App() {
           catagory:res.data.catagories
          })
       }
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+    axiosinstance.get('/getcart')
+    .then((res)=>{
+      dispatch({
+        type:'addcart',
+        cart:res.data.message[0].cartItem
+      })
     })
     .catch((err)=>{
       console.log(err)

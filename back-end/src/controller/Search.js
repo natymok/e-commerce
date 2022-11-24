@@ -2,7 +2,6 @@ const Products=require('../models/Products')
 exports.searchProduct=(req,res,next)=>{
    
     const name=req.query
-    console.log(name)
     Products.find(name)
     .then((data)=>{
         res.status(200).json({

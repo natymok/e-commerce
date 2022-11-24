@@ -3,7 +3,8 @@ const token=fetch()
 export const initialstate={
     token:token,
     catagories:null,
-    product:null
+    product:null,
+    cart:null
     
     
 }

@@ -1,12 +1,11 @@
 
 const cart=require('../models/cart')
 exports.addtoCart=(req,res,next)=>{
-   console.log(req.user.id)
+   console.log(req.user)
    console.log(req.body.cartItem.product)
    cart.findOne({user:req.user.id})
    .then((user)=>{
        if(user){
-        console.log(req.body.cartItem)
         const isitem=user.cartItem.find((item)=>(
             
             item.product.toString()==req.body.cartItem.product.toString()
@@ -90,6 +89,21 @@ exports.addtoCart=(req,res,next)=>{
     })
     
        
+   }
+   exports.getCart=(req,res,next)=>{
+    console.log('gang',req.user)
+        cart.find({user:req.user.id})
+        .then((data)=>{
+            res.status(200).json({
+                message:data
+            })
+        })
+        .catch((err)=>{
+            res.status(400).json({
+                error:err
+            })
+        })
+
    }
  
        

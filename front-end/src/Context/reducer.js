@@ -17,6 +17,11 @@ const reducer=(state,action)=>{
                 ...state,
                 catagories:action.catagory
             }
+            case 'addcart':
+                return{
+                    ...state,
+                    cart:action.cart
+                }
             case 'allcat':
                 return{
                     ...state,
