@@ -6,11 +6,12 @@ exports.addtoCart=(req,res,next)=>{
    cart.findOne({user:req.user.id})
    .then((user)=>{
        if(user){
+        
         const isitem=user.cartItem.find((item)=>(
             
             item.product.toString()==req.body.cartItem.product.toString()
         ))
-        console.log(isitem)
+    
         if(isitem){
             let quantity
             if(req.body.cartItem.quantity){
@@ -91,7 +92,6 @@ exports.addtoCart=(req,res,next)=>{
        
    }
    exports.getCart=(req,res,next)=>{
-    console.log('gang',req.user)
         cart.find({user:req.user.id})
         .then((data)=>{
             res.status(200).json({
@@ -103,6 +103,28 @@ exports.addtoCart=(req,res,next)=>{
                 error:err
             })
         })
+
+   }
+   exports.removefromCart=(req,res,next)=>{
+    const filter={user:req.user.id}
+    const update=req.body
+    cart.findOneAndUpdate(filter,update,{
+        new: true,
+        upsert: true,
+        rawResult: true 
+    })
+    .then((data)=>{
+        res.status(200).json({
+         message:data
+
+        })
+    })
+    .catch((err)=>{
+        res.status(400).json({
+            error:err
+        })
+    })
+      
 
    }
  

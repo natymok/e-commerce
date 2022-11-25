@@ -6,9 +6,34 @@ import { useStateValue } from "../../Context/StateProvider";
 export default function Cart() {
   const [{cart},dispatch]=useStateValue()
   const [showModal, setShowModal] = React.useState(false);
+  const deleteitem=(id)=>{
+    const newcart=cart && cart.filter((item)=>(
+      item._id!=id
+      
+    ))
+    axiosinstance.put('/removefromCart', { cartItem:newcart }).then((res)=>{
+       dispatch({
+        type:'addcart',
+        cart:res.data.message.value.cartItem
+      })
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+      
+     
+    
+
+  }
   let subtOt=0
   let vat=0
   let Total=0
+  const callculateTotal=(item)=>{
+    subtOt=subtOt+item.price
+    vat=vat+(0.15*item.price)
+    Total=subtOt+vat
+
+  }
  
   const fetchCart=()=>{
     setShowModal(true)
@@ -27,7 +52,7 @@ export default function Cart() {
   return (
    <div className="">
     <motion.div whileTap={{scale:1.2}} className="relative cursor-pointer" onClick={fetchCart}>
-     <MdShoppingBasket className="w-10 h-7"> </MdShoppingBasket>
+     <MdShoppingBasket className=" w-5 h-5 md:w-10 md:h-7 "> </MdShoppingBasket>
        <div className="flex bg-black rounded-full justify-center items-center w-5 h-4  absolute -top-4 left-7 text-xl text-white">
        <p className=" ">{cart && cart.length}</p>
         </div>
@@ -38,7 +63,7 @@ export default function Cart() {
          <div
             className="justify-center items-center flex overflow-x-hidden fixed inset-0 z-50 outline-none focus:outline-none "
           >
-            <div className="relative w-full my-6 mx-auto max-w-3xl">
+            <div className="relative w-[90%] md:w-full my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
@@ -47,12 +72,12 @@ export default function Cart() {
                   <div className="relative p-6 flex-auto">
                     {cart && cart.map((item)=>(
                       
+                      
                       <div key={item._id} className='w-100 h-20 flex items-center justify-between'>
-                        {subtOt=subtOt+parseInt(item.price)}
-                        {vat=vat+(0.15*(item.price))}
-                        {Total=subtOt+vat}
-                        <img className="w-20 h-20" src={`http://localhost:3000/public/${item.productPicture}`} alt=''></img>
-                        <select className="w-[10%] border-gray-400 border-2" >
+                        {callculateTotal(item)}
+                        
+                        <img className="w-10 h-10 md:w-20 md:h-20" src={`http://localhost:3000/public/${item.productPicture}`} alt=''></img>
+                        <select className=" w-[30%] md:w-[10%] border-gray-400 border-2" >
                         <option value={'1'}>1</option>
                         <option value={'2'}>2</option>
                         <option value={'3'}>3</option>
@@ -60,7 +85,7 @@ export default function Cart() {
                         <option value={'5'}></option>
                         </select>
                         <p>{item.price}ETB</p>
-                        <div className="text-red flex item-center items-center cursor-pointer pl-1">
+                        <div onClick={()=>{deleteitem(item._id)}} className="text-red flex item-center items-center cursor-pointer pl-1">
                           <MdDelete className="w-6 h-6"></MdDelete>
                         </div>
 
@@ -72,7 +97,7 @@ export default function Cart() {
                       <p>Sub total</p>
                       <p>{subtOt}</p>
                     </div>
-                    <div className="w-full flex justify-between">
+                    <div className="w-full flex justify-between text-sm md:text-md ">
                       <p>Vat(15%)</p>
                       <p>{vat}</p>
                     </div>

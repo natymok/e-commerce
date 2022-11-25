@@ -2,8 +2,6 @@ const product =require('../../models/Products')
 exports.UpdateProduct=(req,res)=>{
     const filter={_id:req.body.id}
     const update=req.body
-    
-     console.log(req.body)
     product.findOneAndUpdate(filter,update,{
         new: true,
         upsert: true,
