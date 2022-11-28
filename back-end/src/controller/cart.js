@@ -1,8 +1,6 @@
 
 const cart=require('../models/cart')
 exports.addtoCart=(req,res,next)=>{
-   console.log(req.user)
-   console.log(req.body.cartItem.product)
    cart.findOne({user:req.user.id})
    .then((user)=>{
        if(user){

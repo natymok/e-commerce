@@ -11,7 +11,7 @@ export default function AdminDashboard({showCatagory,showOrder,showProduct}) {
     <div>
         <Header></Header>
         <div className='flex   w-full '>
-          <div className='h-[1700px] bg-gradient-to-r from-purple-500 to-pink-500 w-[15%]'>
+          <div className='h-[2700px] bg-gradient-to-r from-purple-500 to-pink-500 w-[15%]'>
           <ul className='  pl-3 flex flex-col  decoration-none list-none'>
             <Link className='p-0 hover:bg-black hover:text-white' to='/products'>Product</Link>
             <Link className='hover:bg-black hover:text-white' to='/Catagories'>Catagories</Link>

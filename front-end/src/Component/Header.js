@@ -136,7 +136,7 @@ function Header() {
                         <option key={cat._id} value={cat._id}>{cat.name}</option>
                     ))}
                 </select>
-                <Link className='text-[1rem]' to='/signup'>Register</Link>
+               {!token && (<Link className='text-[1rem]' to='/signup'>Register</Link>)}
                 {!token && (<Link className='text-[1rem]' to='/signin'>Signin</Link>)}
                  {token && (<button onClick={signOut}>signOut</button>)}
                  {token && (<Cart></Cart>)}

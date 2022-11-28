@@ -23,8 +23,13 @@ function Home() {
       else{
       axiosinstance.post('/addTocart',{cartItem:cartItem})
       .then((res)=>{
-        console.log('cart',res)
+        
+        dispatch({
+          type:'addcart',
+          cart:res.data.cart.cartItem
+        })
       })
+
       .catch((err)=>{
         console.log(err)
       })
@@ -74,7 +79,7 @@ function Home() {
                  <p className='m-3 font-serif font-medium'>{item.Description}</p>
                  <div className='flex justify-between w-full items-center'>
                   <p className=' font-thin font-serif text-sm'>BUY NOW</p>
-                  <p className='font-medium font-serif'>{item.price}$</p>
+                  <p className='font-medium font-serif'>{item.price}ETB</p>
                   </div>
                   <div className=' flex flex-col md:flex-row items-center w-full justify-between  '>
                    <div className='flex'>
@@ -89,7 +94,7 @@ function Home() {
                    </div>
                     <div className='border-1 border-gray-300 bg-orange-400 hover:bg-orange-600 text-white font-serif flex p-1 w-full md:w-[50%] md:p-3 cursor-pointer' onClick={()=>{addcart(item._id,item.quantity,item.price,item.productPicture[0].img)}}>
                       <MdShoppingBasket></MdShoppingBasket>
-                      <p>Add to Cart</p>
+                      <motion.p whileTap={{scale:1.2}}>Add to Cart</motion.p>
                     </div>
                   </div>
                  
